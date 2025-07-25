@@ -204,4 +204,45 @@ describe("board methods and attributes", () => {
     expect(() => board.receiveAttack(3, 1)).toThrow("Square Already Attacked");
     expect(() => board.receiveAttack(2, 1)).toThrow("Square Already Attacked");
     expect(() => board.receiveAttack(1, 1)).toThrow("Square Already Attacked");
+
+    // Now we'll try sinking the other ship and make sure the board is marked as defeated
+    // This should have destroyed ship2
+    board.receiveAttack(5, 1);
+    board.receiveAttack(5, 2);
+    board.receiveAttack(5, 3);
+    board.receiveAttack(5, 4);
+    board.receiveAttack(5, 5);
+
+    expect(board.squares[5][1]).toEqual({
+        ship: ship2,
+        hit: true,
+    });
+
+    expect(board.squares[5][2]).toEqual({
+        ship: ship2,
+        hit: true,
+    });
+
+    expect(board.squares[5][3]).toEqual({
+        ship: ship2,
+        hit: true,
+    });
+
+    expect(board.squares[5][4]).toEqual({
+        ship: ship2,
+        hit: true,
+    });
+
+    expect(board.squares[5][5]).toEqual({
+        ship: ship2,
+        hit: true,
+    });
+
+    // We'll make sure the ship has been sunk
+    expect(ship2.isSunk()).toBe(true);
+    // That the list of defeated ships is 2
+    expect(board.shipsDefeated).toBe(2);
+    // And that we're marked as defeated
+    expect(board.defeated).toBe(true);
+
 });
