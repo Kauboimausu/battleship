@@ -211,6 +211,16 @@ describe("board methods and attributes", () => {
         hit: true,
     });
 
+    expect(board.squares[0][1]).toEqual({
+        ship: null,
+        hit: false,
+    });
+
+    // We'll make sure we throw an error if we try to hit a square that's already been hit
+    expect(() => board.receiveAttack(3,1)).toThrow("Square already hit");
+    expect(() => board.receiveAttack(2,1)).toThrow("Square already hit");
+    expect(() => board.receiveAttack(1,1)).toThrow("Square already hit");
+
     // Now we'll check that the shipsDefeated counter has increased
     // We'll also check that the ship identifies itself as sunk
 
