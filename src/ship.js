@@ -5,11 +5,11 @@ class Ship {
     }
 
     hit() {
-        this.damaged++;
+        this.damaged += 1;
     }
 
     isSunk() {
-        return (this.damaged == this.length);
+        return this.damaged == this.length;
     }
 }
 

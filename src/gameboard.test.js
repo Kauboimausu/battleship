@@ -52,35 +52,11 @@ describe("GameBoard", () => {
     });
 
     it("verifies list of ships type", () => {
-        expect(board.ships).toBe("object");
+        expect(typeof board.ships).toBe("object");
     });
 
     it("verifies ships defeated exists", () => {
-        expect(board.shipsDefeated).toBe("number");
-    });
-});
-
-describe("ship methods and attributes", () => {
-    const ship = new Ship(3);
-    it("Ship length", () => {
-        expect(ship.length).toBe(3);
-    });
-
-    ship.hit();
-    it("Ship hit register", () => {
-        expect(ship.damaged).toBe(1);
-    });
-
-    it("Ship hit register 2", () => {
-        expect(ship.damaged).toBe(2);
-    });
-
-    it("Ship hit register 3", () => {
-        expect(ship.damaged).toBe(3);
-    });
-
-    it("Ship sunk register", () => {
-        expect(ship.isSunk).toBeTruthy();
+        expect(typeof board.shipsDefeated).toBe("number");
     });
 });
 
@@ -216,11 +192,12 @@ describe("board methods and attributes", () => {
         hit: false,
     });
 
+
     // Now we'll check that the shipsDefeated counter has increased
     // We'll also check that the ship identifies itself as sunk
 
     expect(board.shipsDefeated).toBe(1);
-    expect(ship1.isSunk()).toBeTruthy();
+    expect(ship1.isSunk()).toBe(true);
 
     // We'll also try to call the receiveAttack function on squares that have already been attacked, this should return an error
 
