@@ -10,6 +10,7 @@ class GameBoard {
         this.shipsDefeated = 0;
         this.ships = [];
         this.missedAttacks = 0;
+        this.defeated = false;
     }
 
     placeShip(yCoordinate, xCoordinate, ship, direction) {
@@ -53,8 +54,25 @@ class GameBoard {
 
     // Function that given coordinates strikes the given square and handles the appropriate logic
     receiveAttack(yCoordinate, xCoordinate) {
+        // First we'll make the square hasn't been hit already, if it has we'll throw out an error
+        if(this.squares[yCoordinate][xCoordinate].hit == true) {
+            throw new Error("Square Already Attacked");
+        }
         // Naturally we'll mark the square as hit
         this.squares[yCoordinate][xCoordinate].hit = true;
+        // Then if there's a ship in the square and we already made sure the square hadn't been hit before we need to register a new hit
+        if(this.squares[yCoordinate][xCoordinate].ship != null) {
+            this.squares[yCoordinate][xCoordinate].ship.hit();
+            // then we'll check if the ship has been sunk, if it has we'll check if the ship was sunken
+            if(this.squares[yCoordinate][xCoordinate].ship.isSunk()) {
+                // We'll increase the number of sunken ships
+                this.shipsDefeated++;
+                // Then we'll check if all our ships have been sunk, if so then we just lost the game
+                if(this.ships.length == this.shipsDefeated) {
+                    this.defeated = true;
+                }
+            }
+        }
     }
 
     shipsRemain() {
