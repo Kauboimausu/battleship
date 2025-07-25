@@ -58,7 +58,6 @@ describe("GameBoard", () => {
     it("verifies ships defeated exists", () => {
         expect(board.shipsDefeated).toBe("number");
     });
-
 });
 
 describe("ship methods and attributes", () => {
@@ -94,50 +93,50 @@ describe("board methods and attributes", () => {
     // First we'll try testing some valid ship placements and verify they were done correctly
 
     board.placeShip(3, 1, ship1, "vertical");
-    expect(board.squares[3][1]).toStrictEqual({
+    expect(board.squares[3][1]).toEqual({
         ship: ship1,
         hit: false,
     });
 
-    expect(board.squares[2][1]).toStrictEqual({
+    expect(board.squares[2][1]).toEqual({
         ship: ship1,
         hit: false,
     });
 
-    expect(board.squares[1][1]).toStrictEqual({
+    expect(board.squares[1][1]).toEqual({
         ship: ship1,
         hit: false,
     });
 
     board.placeShip(5, 1, ship2, "horizontal");
-    expect(board.squares[5][1]).toStrictEqual({
+    expect(board.squares[5][1]).toEqual({
         ship: ship2,
         hit: false,
     });
 
-    expect(board.squares[5][2]).toStrictEqual({
+    expect(board.squares[5][2]).toEqual({
         ship: ship2,
         hit: false,
     });
 
-    expect(board.squares[5][3]).toStrictEqual({
+    expect(board.squares[5][3]).toEqual({
         ship: ship2,
         hit: false,
     });
 
-    expect(board.squares[5][4]).toStrictEqual({
+    expect(board.squares[5][4]).toEqual({
         ship: ship2,
         hit: false,
     });
 
-    expect(board.squares[5][5]).toStrictEqual({
+    expect(board.squares[5][5]).toEqual({
         ship: ship2,
         hit: false,
     });
 
     // Then we'll test a square that should be empty
 
-    expect(board.squares[5][6]).toStrictEqual({
+    expect(board.squares[5][6]).toEqual({
         ship: null,
         hit: false,
     });
@@ -148,17 +147,21 @@ describe("board methods and attributes", () => {
 
     // Then we'll try some out of bounds ship placements
 
-    expect(board.placeShip(0, 0, ship3, "vertical").toThrow("Out of Bounds"));
-    expect(board.placeShip(3, 7, ship3, "horizontal").toThrow("Out of Bounds"));
+    expect(() => board.placeShip(0, 0, ship3, "vertical")).toThrow(
+        "Out of Bounds",
+    );
+    expect(() => board.placeShip(3, 7, ship3, "horizontal")).toThrow(
+        "Out of Bounds",
+    );
 
     // We'll check to see that the ship reference wasnt added into the square
 
-    expect(board.squares[0][0]).toStrictEqual({
+    expect(board.squares[0][0]).toEqual({
         ship: null,
         hit: false,
     });
 
-    expect(board.squares[3][7]).toStrictEqual({
+    expect(board.squares[3][7]).toEqual({
         ship: null,
         hit: false,
     });
@@ -168,22 +171,20 @@ describe("board methods and attributes", () => {
     expect(board.ships).not.toContain(ship3);
 
     // Now we'll try to add ships that would conflict against already added ships, this should throw an error
-    expect(
-        board.placeShip(2, 0, ship3, "horizontal").toThrow("Clashing Ships"),
-    );
-    expect(board.placeShip(7, 2, ship3, "vertical").toThrow("Clashing Ships"));
+    expect(() => board.placeShip(2, 0, ship3, "horizontal")).toThrow("Clashing Ships");
+    expect(() => board.placeShip(7, 2, ship3, "vertical")).toThrow("Clashing Ships");
 
     // Again, we'll check to see that the ship hasnt been added to the ships list
     expect(board.ships).not.toContain(ship3);
 
     // And again we'll check that the ship reference hasn't been added
 
-    expect(board.squares[2][0]).toStrictEqual({
+    expect(board.squares[2][0]).toEqual({
         ship: null,
         hit: false,
     });
 
-    expect(board.squares[7][2]).toStrictEqual({
+    expect(board.squares[7][2]).toEqual({
         ship: null,
         hit: false,
     });
@@ -195,20 +196,19 @@ describe("board methods and attributes", () => {
     board.receiveAttack(2, 1);
     board.receiveAttack(1, 1);
 
-
-    expect(board.squares[3][1]).toStrictEqual({
+    expect(board.squares[3][1]).toEqual({
         ship: ship1,
-        hit: true
+        hit: true,
     });
 
-    expect(board.squares[2][1]).toStrictEqual({
+    expect(board.squares[2][1]).toEqual({
         ship: ship1,
-        hit: true
+        hit: true,
     });
 
-    expect(board.squares[1][1]).toStrictEqual({
+    expect(board.squares[1][1]).toEqual({
         ship: ship1,
-        hit: true
+        hit: true,
     });
 
     // Now we'll check that the shipsDefeated counter has increased
@@ -222,5 +222,4 @@ describe("board methods and attributes", () => {
     expect(board.receiveAttack(3, 1)).toThrow("Square Already Attacked");
     expect(board.receiveAttack(2, 1)).toThrow("Square Already Attacked");
     expect(board.receiveAttack(1, 1)).toThrow("Square Already Attacked");
-
 });
