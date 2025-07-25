@@ -51,8 +51,10 @@ class GameBoard {
         }
     }
 
-    receiveAttack() {
-        return "hi";
+    // Function that given coordinates strikes the given square and handles the appropriate logic
+    receiveAttack(yCoordinate, xCoordinate) {
+        // Naturally we'll mark the square as hit
+        this.squares[yCoordinate][xCoordinate].hit = true;
     }
 
     shipsRemain() {
