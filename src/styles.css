@@ -1,0 +1,43 @@
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 250px 1fr 300px;
+    align-items: center;
+    justify-items: center;
+}
+
+.game-title {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+.player.grid {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.robot-grid {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.game-info {
+    grid-column: 1 / -1;
+    grid-row: 3;
+}
+
+.player-grid, .robot-grid {
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 10px;
+}
+
+.player-square, .computer-square {
+
+    background-color: blue;
+}

@@ -33,7 +33,31 @@ const DOMHandler = (function() {
         }
     }
 
-    return { createGrids };
+    // Marks a ship as having been placed in the board
+    const markShip = (row, column, shipLength, vector, grid) => {
+        let squares;
+        grid == "Player" ? squares = document.querySelectorAll(".player-square") : squares = document.querySelectorAll(".computer-square");
+        if(vector == "horizontal") {
+            // We'll take the whole horizontal vector of squares
+            // squares = squares.filter(square => square.classList.contains(`row-${row}`));
+            for(let index = column; index < column + shipLength; index++) {
+                // Then we'll take the reference of the square with matching row and column, we'll change the color of it
+                // const square = squares.filter(square => square.classList.contains(`column-${index}`))[0];
+                const square = squares.item((row * 10) + index);
+                square.style.backgroundColor = "yellow";
+            }
+        } else {
+            // squares = squares.filter(square => square.classList.contains(`column-${column}`));
+            for(let index = row; index > row - shipLength; index--) {
+                // Then we'll take the reference of the square with matching row and column, we'll change the color of it
+                // const square = squares.filter(square => square.classList.contains(`row-${index}`))[0];
+                const square = squares.item((index * 10) + column);
+                square.style.backgroundColor = "yellow";
+            }
+        }
+    }
+
+    return { createGrids, markShip };
 })();
 
 module.exports = DOMHandler;
