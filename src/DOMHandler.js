@@ -1,6 +1,6 @@
 const DOMHandler = (function() {
     const playerBoard = document.querySelector(".player-grid");
-    const computerBoard = document.querySelector(".robot-grid");
+    const computerBoard = document.querySelector(".computer-grid");
 
     const gameInfo = document.querySelector(".game-info");
 
