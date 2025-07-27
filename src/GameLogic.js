@@ -12,6 +12,27 @@ const GameLogicHandler = (function() {
     let player1 = new Player("Isa", true);
     let player2 = new Player("Odin");
 
+    // This will generate all the legal moves that you can make, we're doing this ensure the moves are random but we don't get repeats
+    const possibleMoves = (() => {
+        let moves = [];
+        // We'll generate all the available moves for the computer
+        for(let j = 0; j < 10; j++) {
+            for(let i = 0; i < 10; i++) {
+                moves.push([j, i]);
+            }
+        }
+        // Next we'll shuffle the array in place using the Durstenfeld shuffle algorithm
+        for(let index = moves.length - 1; index > 0; index--) {
+            let x = Math.floor(Math.random() * (index + 1));
+            let temp = moves[index];
+            moves[index] = moves[x];
+            moves[x] = temp;
+        }
+        return moves;
+    })();
+
+    
+
     // Adds event listeners to all squares on the board
     const addSquareListeners = (squares) => {
         for(let index = 0; index < squares.length; index++){
