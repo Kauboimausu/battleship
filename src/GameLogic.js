@@ -31,7 +31,24 @@ const GameLogicHandler = (function() {
         return moves;
     })();
 
-    
+    const computerMove = () => {
+        // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
+        setTimeout(() => {
+            // We'll take the last move of the list, recall that the list is well shuffled
+            const nextMove = possibleMoves.pop();
+            // Next we'll hit the ship in the given coordinates
+            const shipWasHit = player1.board.receiveAttack(nextMove[0], nextMove[1]);
+            // and we'll mark it on the UI too
+            DOMHandler.markAttack(nextMove[0], nextMove[1], "Player", shipWasHit);
+            // We'll also pass the turn 
+            playersTurn = true;
+            if(player1.board.defeated) {
+                gameOver = true;
+                DOMHandler.updateMessage(`${player1.name} lost!`)
+            }
+        }, 2000);
+
+    }
 
     // Adds event listeners to all squares on the board
     const addSquareListeners = (squares) => {
@@ -43,8 +60,12 @@ const GameLogicHandler = (function() {
                     const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
                     DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
                     console.log(player2.board.defeated);
+                    playersTurn = false;
                     if(player2.board.defeated) {
+                        gameOver = true;
                         DOMHandler.updateMessage(`${player2.name} lost!`)
+                    } else {
+                        computerMove();
                     }
                 }
             });
