@@ -20,6 +20,8 @@ const DOMHandler = (function() {
             }
         }
 
+        // We'll return all the squares at the end to add the event listener
+        let computerSquares = [];
         // We'll do pretty much the same for the AI's 
         for(let j = 0; j < 10; j++) {
             for(let i = 0; i < 10; i++){
@@ -29,8 +31,11 @@ const DOMHandler = (function() {
                 square.classList.add(`row-${j}`);
                 square.classList.add(`column-${i}`);
                 computerBoard.appendChild(square);
+                computerSquares.push(square);
             }
         }
+
+        return computerSquares;
     }
 
     // Marks a ship as having been placed in the board
