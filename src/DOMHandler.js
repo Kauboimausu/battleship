@@ -57,7 +57,15 @@ const DOMHandler = (function() {
         }
     }
 
-    return { createGrids, markShip };
+    const markAttack = (row, column, grid) => {
+        let squares;
+        grid == "Player" ? squares = document.querySelectorAll(".player-square") : squares = document.querySelectorAll(".computer-square");
+        const square = squares.item((row * 10) + column);
+        square.style.border = "1px solid red";
+        square.textContent = "X";
+    }
+
+    return { createGrids, markShip, markAttack };
 })();
 
 module.exports = DOMHandler;

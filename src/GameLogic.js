@@ -4,7 +4,8 @@ const DOMHandler = require("./DOMHandler");
 
 
 const GameLogicHandler = (function() {
-    const setUpRoutine = () => {
+
+    const setUpRoutine = async () => {
 
         let player1 = new Player("Isa", true);
         let player2 = new Player("Odin");
@@ -19,11 +20,12 @@ const GameLogicHandler = (function() {
         player2.board.placeShip(1,4, ship3, "horizontal");
         player2.board.placeShip(6, 7, ship4, "vertical");
         
-        DOMHandler.createGrids();
+        await DOMHandler.createGrids();
         DOMHandler.markShip(5, 5, ship1.length, "vertical", "Player");
         DOMHandler.markShip(8, 3, ship2.length, "horizontal", "Player");
         DOMHandler.markShip(1, 4, ship3.length, "horizontal", "Computer");
         DOMHandler.markShip(6, 7, ship4.length, "vertical", "Computer");
+        DOMHandler.markAttack(5, 5, "Player");
     }
 
     return { setUpRoutine };
