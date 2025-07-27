@@ -4,6 +4,11 @@ const DOMHandler = (function() {
 
     const gameInfo = document.querySelector(".game-info");
 
+    // This will update the message to indicate the state of the game
+    const updateMessage = (newMessage) => {
+        gameInfo.textContent = newMessage;
+    }
+    
     // This function adds the grid to the HTML for both boards
     const createGrids = () => {
         // First we'll create the player's grid
@@ -62,15 +67,18 @@ const DOMHandler = (function() {
         }
     }
 
-    const markAttack = (row, column, grid) => {
+    const markAttack = (row, column, grid, hit=false) => {
         let squares;
         grid == "Player" ? squares = document.querySelectorAll(".player-square") : squares = document.querySelectorAll(".computer-square");
         const square = squares.item((row * 10) + column);
         square.style.border = "1px solid red";
         square.textContent = "X";
+        if(hit) {
+            square.style.color = "red";
+        }
     }
 
-    return { createGrids, markShip, markAttack };
+    return { createGrids, markShip, markAttack, updateMessage };
 })();
 
 module.exports = DOMHandler;

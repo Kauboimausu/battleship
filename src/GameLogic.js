@@ -19,10 +19,12 @@ const GameLogicHandler = (function() {
             square.addEventListener("click", () => {
                 // first we're gonna make sure the game isn't over and it's the player's turn
                 if(!gameOver && playersTurn) {
-                    DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer");
-                    player2.board.receiveAttack(Math.floor(index / 10), index % 10);
+                    const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
+                    DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
                     console.log(player2.board.defeated);
-                    
+                    if(player2.board.defeated) {
+                        DOMHandler.updateMessage(`${player2.name} lost!`)
+                    }
                 }
             });
         }
@@ -42,7 +44,7 @@ const GameLogicHandler = (function() {
         player2.board.placeShip(1,4, ship3, "horizontal");
         player2.board.placeShip(6, 7, ship4, "vertical");
         
-        const squares = await DOMHandler.createGrids();
+        const squares = DOMHandler.createGrids();
         addSquareListeners(squares);
         DOMHandler.markShip(5, 5, ship1.length, "vertical", "Player");
         DOMHandler.markShip(8, 3, ship2.length, "horizontal", "Player");

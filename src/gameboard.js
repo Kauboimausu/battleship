@@ -72,6 +72,8 @@ class GameBoard {
                     this.defeated = true;
                 }
             }
+            // We'll return true if a ship was hit
+            return true;
         }
     }
 
