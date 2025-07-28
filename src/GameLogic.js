@@ -34,19 +34,23 @@ const GameLogicHandler = (function() {
     const computerMove = () => {
         // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
         setTimeout(() => {
-            // We'll take the last move of the list, recall that the list is well shuffled
-            const nextMove = possibleMoves.pop();
-            // Next we'll hit the ship in the given coordinates
-            const shipWasHit = player1.board.receiveAttack(nextMove[0], nextMove[1]);
-            // and we'll mark it on the UI too
-            DOMHandler.markAttack(nextMove[0], nextMove[1], "Player", shipWasHit);
-            // We'll also pass the turn 
-            playersTurn = true;
-            if(player1.board.defeated) {
-                gameOver = true;
-                DOMHandler.updateMessage(`${player1.name} lost!`)
+            while(!playersTurn && !gameOver) {
+                // We'll take the last move of the list, recall that the list is well shuffled
+                const nextMove = possibleMoves.pop();
+                // Next we'll hit the ship in the given coordinates
+                const shipWasHit = player1.board.receiveAttack(nextMove[0], nextMove[1]);
+                // and we'll mark it on the UI too
+                DOMHandler.markAttack(nextMove[0], nextMove[1], "Player", shipWasHit);
+                // We'll also pass the turn if the computer missed
+                if(!shipWasHit) {
+                    playersTurn = true;
+                }
+                if(player1.board.defeated) {
+                    gameOver = true;
+                    DOMHandler.updateMessage(`${player1.name} lost!`)
+                }
             }
-        }, 2000);
+        }, 1500);
 
     }
 
@@ -55,17 +59,24 @@ const GameLogicHandler = (function() {
         for(let index = 0; index < squares.length; index++){
             const square = squares[index];
             square.addEventListener("click", () => {
-                // first we're gonna make sure the game isn't over and it's the player's turn
-                if(!gameOver && playersTurn) {
-                    const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
-                    DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
-                    console.log(player2.board.defeated);
-                    playersTurn = false;
-                    if(player2.board.defeated) {
-                        gameOver = true;
-                        DOMHandler.updateMessage(`${player2.name} lost!`)
-                    } else {
-                        computerMove();
+                // first we're gonna make sure it's the player's turn
+                if(playersTurn) {
+                    // We'll encapsulate all the code inside this while to make sure the player can have consecutive turns should they hit a ship
+                    // We'll make the sure game isn't over every time as well, the game is over if all ships on one side are destroyed
+                    while(playersTurn && !gameOver) {
+                        const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
+                        DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
+                        // If the ship wasn't hit we'll let the player have another turns until they miss
+                        if(!shipWasHit) {
+                            playersTurn = false
+                        }
+                        if(player2.board.defeated) {
+                            gameOver = true;
+                            DOMHandler.updateMessage(`${player2.name} lost!`)
+                        } else if(!playersTurn){
+                            // After the player makes a move the computer will make their move, but only if the player didn't miss
+                            computerMove();
+                        }
                     }
                 }
             });
