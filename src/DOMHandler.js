@@ -4,6 +4,8 @@ const DOMHandler = (function() {
 
     const gameInfo = document.querySelector(".game-info");
 
+    const turnIndicator = document.querySelector(".turn-indicator");
+
     // This will update the message to indicate the state of the game
     const updateMessage = (newMessage) => {
         gameInfo.textContent = newMessage;
@@ -78,7 +80,11 @@ const DOMHandler = (function() {
         }
     }
 
-    return { createGrids, markShip, markAttack, updateMessage };
+    const changeTurnText = (name) => {
+        turnIndicator.textContent = `It is ${name}'s turn`;
+    }
+
+    return { createGrids, markShip, markAttack, updateMessage, changeTurnText };
 })();
 
 module.exports = DOMHandler;

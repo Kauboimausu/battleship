@@ -43,6 +43,7 @@ const GameLogicHandler = (function() {
                 DOMHandler.markAttack(nextMove[0], nextMove[1], "Player", shipWasHit);
                 // We'll also pass the turn if the computer missed
                 if(!shipWasHit) {
+                    DOMHandler.changeTurnText(player1.name);
                     playersTurn = true;
                 }
                 if(player1.board.defeated) {
@@ -68,6 +69,7 @@ const GameLogicHandler = (function() {
                         DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
                         // If the ship wasn't hit we'll let the player have another turns until they miss
                         if(!shipWasHit) {
+                            DOMHandler.changeTurnText(player2.name);
                             playersTurn = false
                         }
                         if(player2.board.defeated) {
