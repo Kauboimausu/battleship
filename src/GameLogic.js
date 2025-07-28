@@ -71,29 +71,28 @@ const GameLogicHandler = (function() {
         for(let index = 0; index < squares.length; index++){
             const square = squares[index];
             square.addEventListener("click", () => {
-                // first we're gonna make sure it's the player's turn
-                if(playersTurn) {
-                    // We'll encapsulate all the code inside this while to make sure the player can have consecutive turns should they hit a ship
-                    // We'll make the sure game isn't over every time as well, the game is over if all ships on one side are destroyed
-                    while(playersTurn && !gameOver) {
-                        const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
-                        DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
-                        // If the ship wasn't hit we'll let the player have another turns until they miss
-                        if(!shipWasHit) {
-                            DOMHandler.changeTurnText(player2.name);
-                            playersTurn = false
-                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`);
-                        } else {
-                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`);
-                        }
-                        if(player2.board.defeated) {
-                            gameOver = true;
-                            DOMHandler.updateMessage(`${player2.name} lost!`);
-                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`);
-                        } else if(!playersTurn){
-                            // After the player makes a move the computer will make their move, but only if the player didn't miss
-                            computerMove();
-                        }
+                console.log("hi");
+                
+                // We'll encapsulate all the code inside this while to make sure the player can have consecutive turns should they hit a ship
+                // We'll make the sure game isn't over every time as well, the game is over if all ships on one side are destroyed
+                if(playersTurn && !gameOver) {
+                    const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
+                    DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
+                    // If the ship wasn't hit we'll let the player have another turns until they miss
+                    if(!shipWasHit) {
+                        DOMHandler.changeTurnText(player2.name);
+                        playersTurn = false
+                        DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`);
+                    } else {
+                        DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`);
+                    }
+                    if(player2.board.defeated) {
+                        gameOver = true;
+                        DOMHandler.updateMessage(`${player2.name} lost!`);
+                        DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`);
+                    } else if(!playersTurn){
+                        // After the player makes a move the computer will make their move, but only if the player didn't miss
+                        computerMove();
                     }
                 }
             });
