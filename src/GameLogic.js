@@ -12,6 +12,9 @@ const GameLogicHandler = (function() {
     let player1 = new Player("Isa", true);
     let player2 = new Player("Odin");
 
+    // we'll use this array to display the coordinate that was hit in an UI message
+    let numberCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+
     // This will generate all the legal moves that you can make, we're doing this ensure the moves are random but we don't get repeats
     const possibleMoves = (() => {
         let moves = [];
@@ -50,10 +53,14 @@ const GameLogicHandler = (function() {
                 if(!shipWasHit) {
                     DOMHandler.changeTurnText(player1.name);
                     playersTurn = true;
+                    DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and missed`);
+                } else {
+                    DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and hit an enemy ship!`);
                 }
                 if(player1.board.defeated) {
                     gameOver = true;
-                    DOMHandler.updateMessage(`${player1.name} lost!`)
+                    DOMHandler.updateMessage(`${player1.name} lost!`);
+                    DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed the remaining fleet`);
                 }
             }
 
@@ -75,10 +82,14 @@ const GameLogicHandler = (function() {
                         if(!shipWasHit) {
                             DOMHandler.changeTurnText(player2.name);
                             playersTurn = false
+                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`);
+                        } else {
+                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`);
                         }
                         if(player2.board.defeated) {
                             gameOver = true;
-                            DOMHandler.updateMessage(`${player2.name} lost!`)
+                            DOMHandler.updateMessage(`${player2.name} lost!`);
+                            DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`);
                         } else if(!playersTurn){
                             // After the player makes a move the computer will make their move, but only if the player didn't miss
                             computerMove();

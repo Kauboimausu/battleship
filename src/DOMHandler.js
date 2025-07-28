@@ -80,6 +80,7 @@ const DOMHandler = (function() {
         }
     }
 
+
     const changeTurnText = (name) => {
         turnIndicator.textContent = `It is ${name}'s turn`;
     }

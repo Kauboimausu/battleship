@@ -34,6 +34,7 @@ body {
 }
 
 .game-info {
+    align-self: flex-start;
     grid-column: 1 / -1;
     grid-row: 3;
 }
