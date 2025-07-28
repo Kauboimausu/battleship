@@ -31,10 +31,15 @@ const GameLogicHandler = (function() {
         return moves;
     })();
 
-    const computerMove = () => {
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const computerMove = async () => {
         // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
-        setTimeout(() => {
+        
             while(!playersTurn && !gameOver) {
+                await delay(1000);
                 // We'll take the last move of the list, recall that the list is well shuffled
                 const nextMove = possibleMoves.pop();
                 // Next we'll hit the ship in the given coordinates
@@ -51,7 +56,6 @@ const GameLogicHandler = (function() {
                     DOMHandler.updateMessage(`${player1.name} lost!`)
                 }
             }
-        }, 1500);
 
     }
 
