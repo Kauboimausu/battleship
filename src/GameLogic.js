@@ -38,11 +38,36 @@ const GameLogicHandler = (function() {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    // Function that places down enemy's ships in random locations
+    const placeEnemyShips = () => {
+        // We'll keep track of how many ships we've placed
+        let placedShips = 0;
+        // array with the ships 
+        const ships = [new Ship(2), new Ship(3), new Ship(3), new Ship(4), new Ship(5)];
+        while(placedShips < 5) {
+            // We'll generate random coordinates and randomly decide to place the ship horizontally or vertically
+            const column = Math.floor(Math.random() * 9);
+            const row = Math.floor(Math.random() * 9);
+            // Recall that 1 is truthy while 0 is not
+            let direction = "";
+            Math.random() < .5 ? direction = "vertical" : direction = "horizontal";
+            try {
+                player2.board.placeShip(row, column, ships[placedShips], direction);
+                DOMHandler.markShip(row, column, ships[placedShips].length, direction, "Computer");
+                placedShips++;
+            } catch (error) {
+                // We won't actually do anything with the error, we'll just try again
+                // The errors that can arise come from trying to place the ship out of bounds or over another ship
+            }
+        }
+    }
+
     const computerMove = async () => {
         // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
         
             while(!playersTurn && !gameOver) {
                 await delay(1000);
+                const destroyedShips = player1.board.shipsDefeated;
                 // We'll take the last move of the list, recall that the list is well shuffled
                 const nextMove = possibleMoves.pop();
                 // Next we'll hit the ship in the given coordinates
@@ -54,8 +79,10 @@ const GameLogicHandler = (function() {
                     DOMHandler.changeTurnText(player1.name);
                     playersTurn = true;
                     DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and missed`);
-                } else {
+                } else if(destroyedShips == player1.board.shipsDefeated){
                     DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and hit an enemy ship!`);
+                } else {
+                    DOMHandler.updateMessage(`${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed an enemy ship!`);
                 }
                 if(player1.board.defeated) {
                     gameOver = true;
@@ -71,11 +98,12 @@ const GameLogicHandler = (function() {
         for(let index = 0; index < squares.length; index++){
             const square = squares[index];
             square.addEventListener("click", () => {
-                console.log("hi");
                 
                 // We'll encapsulate all the code inside this while to make sure the player can have consecutive turns should they hit a ship
                 // We'll make the sure game isn't over every time as well, the game is over if all ships on one side are destroyed
                 if(playersTurn && !gameOver) {
+                    // We'll save how many ships were destroyed at the beginning of the turn, we'll compare at the end to know if a ship was defeated
+                    const destroyedShips = player2.board.shipsDefeated;
                     const shipWasHit = player2.board.receiveAttack(Math.floor(index / 10), index % 10);
                     DOMHandler.markAttack(Math.floor(index / 10), index % 10, "Computer", shipWasHit);
                     // If the ship wasn't hit we'll let the player have another turns until they miss
@@ -83,8 +111,10 @@ const GameLogicHandler = (function() {
                         DOMHandler.changeTurnText(player2.name);
                         playersTurn = false
                         DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`);
-                    } else {
+                    } else if( destroyedShips == player2.board.shipsDefeated){
                         DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`);
+                    } else {
+                        DOMHandler.updateMessage(`${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed an enemy ship!`);
                     }
                     if(player2.board.defeated) {
                         gameOver = true;
@@ -105,20 +135,15 @@ const GameLogicHandler = (function() {
         
         let ship1 = new Ship(3);
         let ship2 = new Ship(4);
-        let ship3 = new Ship(3);
-        let ship4 = new Ship(4);
+        
         player1.board.placeShip(5, 5, ship1, "vertical");
         player1.board.placeShip(8, 3, ship2, "horizontal");
-        
-        player2.board.placeShip(1,4, ship3, "horizontal");
-        player2.board.placeShip(6, 7, ship4, "vertical");
         
         const squares = DOMHandler.createGrids();
         addSquareListeners(squares);
         DOMHandler.markShip(5, 5, ship1.length, "vertical", "Player");
         DOMHandler.markShip(8, 3, ship2.length, "horizontal", "Player");
-        DOMHandler.markShip(1, 4, ship3.length, "horizontal", "Computer");
-        DOMHandler.markShip(6, 7, ship4.length, "vertical", "Computer");
+        placeEnemyShips();
         
     }
 
