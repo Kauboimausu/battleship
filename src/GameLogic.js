@@ -129,15 +129,68 @@ const GameLogicHandler = (function() {
         }
     }
 
-    const setUpRoutine = async () => {
+    // These will be used to place the battleships before the game starts
+    let selectedShip = null;
+    let selectedDirection = "vertical";
 
-        
+    const addButtonListeners = () => {
+        const carrier = new Ship(5);
+        const battleship = new Ship(4);
+        const cruiser = new Ship(3);
+        const submarine = new Ship(3);
+        const destroyer = new Ship(2);
+
+        const carrierBtn = document.getElementById("carrier");
+        const battleshipBtn = document.getElementById("battleship");
+        const cruiserrBtn = document.getElementById("cruiser");
+        const submarineBtn = document.getElementById("submarine");
+        const destroyerBtn = document.getElementById("destroyer");
+        const directionBtn = document.querySelector(".direction-button");
+
+        carrierBtn.addEventListener("click", () => {
+            selectedShip = carrier;
+        });
+
+        battleshipBtn.addEventListener("click", () => {
+            selectedShip = battleship;
+        });
+
+        cruiserrBtn.addEventListener("click", () => {
+            selectedShip = cruiser;
+        });
+
+        submarineBtn.addEventListener("click", () => {
+            selectedShip = submarine;
+        });
+
+        destroyerBtn.addEventListener("click", () => {
+            selectedShip = destroyer;
+        });
+
+        directionBtn.addEventListener("click", () => {
+            if(directionBtn.classList.contains("vertical")) {
+                selectedDirection = "horizontal";
+                directionBtn.textContent = "Horizontal";
+                directionBtn.classList.add("horizontal");
+                directionBtn.classList.remove("vertical");
+            } else {
+                selectedDirection = "vertical";
+                directionBtn.textContent = "Vertical";
+                directionBtn.classList.add("vertical");
+                directionBtn.classList.remove("horizontal");
+            }
+        })
+    }
+
+    const setUpRoutine = async () => {
         
         let ship1 = new Ship(3);
         let ship2 = new Ship(4);
         
         player1.board.placeShip(5, 5, ship1, "vertical");
         player1.board.placeShip(8, 3, ship2, "horizontal");
+
+        addButtonListeners();
         
         const squares = DOMHandler.createGrids();
         addSquareListeners(squares);
