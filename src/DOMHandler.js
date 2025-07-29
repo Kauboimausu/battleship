@@ -10,6 +10,16 @@ const DOMHandler = (function() {
     const setupDialog = document.querySelector(".setup-window");
     window.addEventListener("load", () => {
         setupDialog.show();
+        const setupGrid = document.querySelector(".placement-grid");
+        for(let j = 0; j < 10; j++) {
+            for(let i = 0; i < 10; i++) {
+                const square = document.createElement("div");
+                square.classList.add("setup-square");
+                square.classList.add(`row-${j}`);
+                square.classList.add(`column-${i}`);
+                setupGrid.appendChild(square);
+            }
+        }
     })
 
 

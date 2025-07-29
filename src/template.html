@@ -65,13 +65,48 @@
             <div class="computer-name">Odin</div>
         </div>
         <p class="game-info"></p>
+
         <div class="page-mask"></div>
+
+
         <dialog class="setup-window">
             <div class="name-input">
-                <label for="name">Name:</label>
                 <input type="text" minlength="2" maxlength="15" placeholder="Player Name" required>
             </div>
-            <div class="placement-grid"></div>
+            <div class="grid-setup">
+                <div class="letter-coordinates">
+                    <div>A</div>
+                    <div>B</div>
+                    <div>C</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>G</div>
+                    <div>H</div>
+                    <div>I</div>
+                    <div>J</div>
+                </div>
+                <div class="number-coordinates">
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                    <div>4</div>
+                    <div>5</div>
+                    <div>6</div>
+                    <div>7</div>
+                    <div>8</div>
+                    <div>9</div>
+                    <div>10</div>
+                </div>    
+                <div class="ship-buttons">
+                    <button class="battleship-button" id="carrier">Carrier</button>
+                    <button class="battleship-button" id="battleship">Battleship</button>
+                    <button class="battleship-button" id="cruiser">Cruiser</button>
+                    <button class="battleship-button" id="submarine">Submarine</button>
+                    <button class="battleship-button" id="destroyer">Destroyer</button>
+                </div>
+                <div class="placement-grid"></div>
+            </div>
             <span class="setup-error"></span>
             <button>Start Game</button>
         </dialog>
