@@ -97,22 +97,22 @@ body {
     display: inline;
 }
 
-.setup-window {
+#setup-window {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     position: fixed;
     top: calc(50% - 350px);
-    left: calc(50% - 365px);
-    width: 730px;
+    left: calc(50% - 375px);
+    width: 750px;
     height: 700px;
     border-radius: 50px;
 }
 
 .grid-setup {
     display: grid;
-    grid-template-columns: 30px 500px 120px;
+    grid-template-columns: 30px 500px 130px;
     grid-template-rows: 30px 1fr;
 }
 

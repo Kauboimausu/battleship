@@ -7,9 +7,12 @@ const DOMHandler = (function() {
     const turnIndicator = document.querySelector(".turn-indicator");
 
     // We'll show the dialog as soon as the page loads so the player can start the game
-    const setupDialog = document.querySelector(".setup-window");
-    window.addEventListener("load", () => {
-        setupDialog.show();
+    const setupDialog = document.getElementById("setup-window");
+    // Page mask to opaque the background 
+    const pageMask = document.querySelector(".page-mask");
+
+    const createSetupGrid = () => {
+        let setupSquares = [];
         const setupGrid = document.querySelector(".placement-grid");
         for(let j = 0; j < 10; j++) {
             for(let i = 0; i < 10; i++) {
@@ -18,9 +21,21 @@ const DOMHandler = (function() {
                 square.classList.add(`row-${j}`);
                 square.classList.add(`column-${i}`);
                 setupGrid.appendChild(square);
+                setupSquares.push(square);
             }
         }
-    })
+        return setupSquares;
+    }
+
+    const showSetupWindow = () => {
+        setupDialog.showModal();
+        pageMask.style.display = "inline";
+    }
+
+    const closeSetupWindow = () => {
+        setupDialog.close();
+        pageMask.style.display = "none";
+    }
 
 
     // This will update the message to indicate the state of the game
@@ -102,7 +117,7 @@ const DOMHandler = (function() {
         turnIndicator.textContent = `It is ${name}'s turn`;
     }
 
-    return { createGrids, markShip, markAttack, updateMessage, changeTurnText };
+    return { createGrids, markShip, markAttack, updateMessage, changeTurnText, createSetupGrid, showSetupWindow, closeSetupWindow };
 })();
 
 module.exports = DOMHandler;

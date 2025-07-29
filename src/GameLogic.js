@@ -191,6 +191,9 @@ const GameLogicHandler = (function() {
         player1.board.placeShip(8, 3, ship2, "horizontal");
 
         addButtonListeners();
+        DOMHandler.showSetupWindow();
+        const setupSquares = DOMHandler.createSetupGrid();
+        
         
         const squares = DOMHandler.createGrids();
         addSquareListeners(squares);
