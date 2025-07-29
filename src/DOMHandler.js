@@ -6,6 +6,13 @@ const DOMHandler = (function() {
 
     const turnIndicator = document.querySelector(".turn-indicator");
 
+    // We'll show the dialog as soon as the page loads so the player can start the game
+    const setupDialog = document.querySelector(".setup-window");
+    window.addEventListener("load", () => {
+        setupDialog.show();
+    })
+
+
     // This will update the message to indicate the state of the game
     const updateMessage = (newMessage) => {
         gameInfo.textContent = newMessage;
