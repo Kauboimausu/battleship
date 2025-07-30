@@ -1,5 +1,7 @@
 :root {
     --opaque-teal: rgb(0, 128, 128, 1);
+    --invalid-color: rgb(255, 102, 102);
+    --valid-color: rgb(0, 204, 0);
 }
 
 body {
@@ -142,5 +144,14 @@ body {
     grid-auto-flow: row;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
+}
+
+/* To show the ship prospective ship placements */
+.highlight-invalid {
+    background-color: var(--invalid-color);
+}
+
+.highlight-valid {
+    background-color: var(--valid-color);
 }
 
