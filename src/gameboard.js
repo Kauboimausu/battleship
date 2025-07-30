@@ -18,7 +18,7 @@ class GameBoard {
         // We'll place the ship differently depending on whether it's placed horizontally or vertically
         if(direction == "horizontal") {
             // We'll check to see if the ship is being placed out of bounds, we'll throw an error if it is
-            if(xCoordinate + shipLength > 9) {
+            if(xCoordinate + (shipLength - 1) > 9) {
                 throw new Error("Out of Bounds");
             } else {
                 // Otherwise we'll check that there's not ships in the way, if there are we'll throw out an error
@@ -36,7 +36,7 @@ class GameBoard {
             this.ships.push(ship);
         } else if(direction == "vertical") {
             // We'll do pretty much the same here
-            if(yCoordinate - shipLength < 0) {
+            if(yCoordinate - (shipLength - 1) < 0) {
                 throw new Error("Out of Bounds");
             } else {
                 for(let index = yCoordinate; index > yCoordinate - shipLength; index--) {

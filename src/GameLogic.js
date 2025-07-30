@@ -207,12 +207,6 @@ const GameLogicHandler = (function() {
     }
 
     const setUpRoutine = async () => {
-        
-        let ship1 = new Ship(3);
-        let ship2 = new Ship(4);
-        
-        player1.board.placeShip(5, 5, ship1, "vertical");
-        player1.board.placeShip(8, 3, ship2, "horizontal");
 
         addButtonListeners();
         DOMHandler.showSetupWindow();
@@ -220,8 +214,6 @@ const GameLogicHandler = (function() {
         const setupSquares = DOMHandler.createSetupGrid();
         setUpSetupSquares(setupSquares);
         addSquareListeners(squares);
-        DOMHandler.markShip(5, 5, ship1.length, "vertical", "Player");
-        DOMHandler.markShip(8, 3, ship2.length, "horizontal", "Player");
         placeEnemyShips();
         
     }
