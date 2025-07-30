@@ -34,6 +34,7 @@ const GameLogicHandler = (function() {
         return moves;
     })();
 
+    // Dummy waiting function
     function delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -62,6 +63,7 @@ const GameLogicHandler = (function() {
         }
     }
 
+    // Makes a random computer move
     const computerMove = async () => {
         // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
         
@@ -93,7 +95,7 @@ const GameLogicHandler = (function() {
 
     }
 
-    // Adds event listeners to all squares on the board
+    // Adds event listeners to squares on enemy board so that it responds adequately when clicked
     const addSquareListeners = (squares) => {
         for(let index = 0; index < squares.length; index++){
             const square = squares[index];
@@ -182,6 +184,28 @@ const GameLogicHandler = (function() {
         })
     }
 
+    // Confusing name, it sets up the event listener for the setup squares so ships can be placed
+    const setUpSetupSquares = (squares) => {
+        // Naturally we'll iterate over all the squares
+        for(let index = 0; index < squares.length; index++) {
+            const square = squares[index];
+            // We'll add an event for clicking and placing the ship
+            square.addEventListener("click", () => {
+                // we'll make sure a ship is selected
+                if(selectedShip != null && player1.board.ships.filter(ship => ship === selectedShip).length == 0) {
+                    try {
+                        player1.board.placeShip(Math.floor(index / 10), index % 10, selectedShip, selectedDirection);
+                        DOMHandler.markShip(Math.floor(index / 10), index % 10, selectedShip.length, selectedDirection, "Setup");
+                        DOMHandler.markShip(Math.floor(index / 10), index % 10, selectedShip.length, selectedDirection, "Player");
+                        DOMHandler.showErrorMessage("");
+                    } catch ({name, message}) {
+                        DOMHandler.showErrorMessage(message);
+                    }
+                }
+            })
+        }
+    }
+
     const setUpRoutine = async () => {
         
         let ship1 = new Ship(3);
@@ -192,10 +216,9 @@ const GameLogicHandler = (function() {
 
         addButtonListeners();
         DOMHandler.showSetupWindow();
-        const setupSquares = DOMHandler.createSetupGrid();
-        
-        
         const squares = DOMHandler.createGrids();
+        const setupSquares = DOMHandler.createSetupGrid();
+        setUpSetupSquares(setupSquares);
         addSquareListeners(squares);
         DOMHandler.markShip(5, 5, ship1.length, "vertical", "Player");
         DOMHandler.markShip(8, 3, ship2.length, "horizontal", "Player");

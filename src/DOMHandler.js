@@ -11,6 +11,8 @@ const DOMHandler = (function() {
     // Page mask to opaque the background 
     const pageMask = document.querySelector(".page-mask");
 
+    const setupErrorMessage = document.querySelector(".setup-error");
+
     const createSetupGrid = () => {
         let setupSquares = [];
         const setupGrid = document.querySelector(".placement-grid");
@@ -41,6 +43,10 @@ const DOMHandler = (function() {
     // This will update the message to indicate the state of the game
     const updateMessage = (newMessage) => {
         gameInfo.textContent = newMessage;
+    }
+
+    const showErrorMessage = (errorMessage) => {
+        setupErrorMessage.textContent = errorMessage;
     }
     
     // This function adds the grid to the HTML for both boards
@@ -80,7 +86,13 @@ const DOMHandler = (function() {
     // Marks a ship as having been placed in the board
     const markShip = (row, column, shipLength, vector, grid) => {
         let squares;
-        grid == "Player" ? squares = document.querySelectorAll(".player-square") : squares = document.querySelectorAll(".computer-square");
+        if(grid == "Player") {
+            squares = document.querySelectorAll(".player-square");
+        } else if (grid == "Computer") {
+            squares = document.querySelectorAll(".computer-square");
+        } else if (grid == "Setup") {
+            squares = document.querySelectorAll(".setup-square");
+        }
         if(vector == "horizontal") {
             // We'll take the whole horizontal vector of squares
             // squares = squares.filter(square => square.classList.contains(`row-${row}`));
@@ -117,7 +129,7 @@ const DOMHandler = (function() {
         turnIndicator.textContent = `It is ${name}'s turn`;
     }
 
-    return { createGrids, markShip, markAttack, updateMessage, changeTurnText, createSetupGrid, showSetupWindow, closeSetupWindow };
+    return { createGrids, markShip, markAttack, updateMessage, changeTurnText, createSetupGrid, showSetupWindow, closeSetupWindow, showErrorMessage };
 })();
 
 module.exports = DOMHandler;

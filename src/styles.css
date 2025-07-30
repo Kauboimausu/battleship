@@ -103,10 +103,10 @@ body {
     align-items: center;
     justify-content: space-around;
     position: fixed;
-    top: calc(50% - 350px);
+    top: calc(50% - 385px);
     left: calc(50% - 375px);
     width: 750px;
-    height: 700px;
+    height: 770px;
     border-radius: 50px;
 }
 
