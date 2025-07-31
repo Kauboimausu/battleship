@@ -180,6 +180,7 @@ const GameLogicHandler = (function () {
 
     // These will be used to place the battleships before the game starts
     let selectedShip = null;
+    let shipName = "";
     let selectedDirection = "vertical";
 
     const addButtonListeners = () => {
@@ -191,29 +192,34 @@ const GameLogicHandler = (function () {
 
         const carrierBtn = document.getElementById("carrier");
         const battleshipBtn = document.getElementById("battleship");
-        const cruiserrBtn = document.getElementById("cruiser");
+        const cruiserBtn = document.getElementById("cruiser");
         const submarineBtn = document.getElementById("submarine");
         const destroyerBtn = document.getElementById("destroyer");
         const directionBtn = document.querySelector(".direction-button");
 
         carrierBtn.addEventListener("click", () => {
             selectedShip = carrier;
+            shipName = "carrier";
         });
 
         battleshipBtn.addEventListener("click", () => {
             selectedShip = battleship;
+            shipName = "battleship";
         });
 
-        cruiserrBtn.addEventListener("click", () => {
+        cruiserBtn.addEventListener("click", () => {
             selectedShip = cruiser;
+            shipName = "cruiser";
         });
 
         submarineBtn.addEventListener("click", () => {
             selectedShip = submarine;
+            shipName = "submarine";
         });
 
         destroyerBtn.addEventListener("click", () => {
             selectedShip = destroyer;
+            shipName = "destroyer";
         });
 
         directionBtn.addEventListener("click", () => {
@@ -301,6 +307,7 @@ const GameLogicHandler = (function () {
                             selectedDirection,
                             "Player",
                         );
+                        DOMHandler.strikethrough(shipName);
                         // we'll clear any previous error messages
                         DOMHandler.showErrorMessage("");
                     } catch ({ name, message }) {

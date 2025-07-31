@@ -202,6 +202,34 @@ const DOMHandler = (function () {
         }
     }
 
+    // Adds a strikethrough line after an element is placed
+    const strikethrough = (name) => {
+        switch (name) {
+            case "carrier":
+                document.getElementById("carrier").style.textDecoration = "line-through";
+                document.getElementById("carrier").style.textDecorationThickness = ".25rem";
+                break;
+            case "battleship":
+                document.getElementById("battleship").style.textDecoration = "line-through";
+                document.getElementById("battleship").style.textDecorationThickness = ".25rem";
+                break;
+            case "cruiser":
+                document.getElementById("cruiser").style.textDecoration = "line-through";
+                document.getElementById("cruiser").style.textDecorationThickness = ".25rem";
+                break;
+            case "submarine":
+                document.getElementById("submarine").style.textDecoration = "line-through";
+                document.getElementById("submarine").style.textDecorationThickness = ".25rem";
+                break;
+            case "destroyer":
+                document.getElementById("destroyer").style.textDecoration = "line-through";
+                document.getElementById("destroyer").style.textDecorationThickness = ".25rem";
+                break;
+            default:
+                break;
+        }
+    }
+
     const markAttack = (row, column, grid, hit = false) => {
         let squares;
         grid == "Player"
@@ -230,7 +258,8 @@ const DOMHandler = (function () {
         closeSetupWindow,
         showErrorMessage,
         highlightSquares,
-        unhighlightSquares
+        unhighlightSquares,
+        strikethrough
     };
 })();
 
