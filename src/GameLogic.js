@@ -254,6 +254,21 @@ const GameLogicHandler = (function () {
                 }
             });
 
+            square.addEventListener("mouseout", () => {
+                if (
+                    selectedShip != null &&
+                    player1.board.ships.filter((ship) => ship === selectedShip)
+                        .length == 0
+                ) {
+                    DOMHandler.unhighlightSquares(
+                        Math.floor(index / 10),
+                        index % 10,
+                        selectedDirection,
+                        "Setup",
+                    );
+                }
+            });
+
             // We'll add an event for clicking and placing the ship
             square.addEventListener("click", () => {
                 // we'll make sure a ship is selected and that the ship hasn't been placed already

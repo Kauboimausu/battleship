@@ -149,6 +149,59 @@ const DOMHandler = (function () {
         }
     }
 
+    // this will unhighlight the squares highlighted with the previous function
+    const unhighlightSquares = (row, column, vector, grid) => {
+        let squares;
+        if (grid == "Player") {
+            squares = document.querySelectorAll(".player-square");
+        } else if (grid == "Computer") {
+            squares = document.querySelectorAll(".computer-square");
+        } else if (grid == "Setup") {
+            squares = document.querySelectorAll(".setup-square");
+        }
+        if(vector == "horizontal") {
+            let index = column;
+            while(index <= 9) {
+                if(squares.item(row * 10 + index).classList.contains("highlight-invalid") || squares.item(row * 10 + index).classList.contains("highlight-valid")) {
+                    if(grid == "Setup") {
+                        squares[row * 10 + index].className = "setup-square";
+                    }    
+                    index++;
+                } else {
+                    return;
+                }
+            }
+
+            // for(let index = column; squares.item(row * 10 + index).classList.contains("highlight-invalid") || squares.item(row * 10 + index).classList.contains("highlight-valid"); index++) {
+            //     if(grid == "Setup") {
+            //         squares[row * 10 + index].className = "setup-square";
+            //     }
+            // }
+        } else if(vector == "vertical") {
+            let index = row;
+            // For this we'll use a while instead of a for, this is to have more control of exactly what is executed since if for might get a nullpointer error, we could just ignore the exception since it doesn't actually affect functionality, but I'll do it this way for cleaner code
+            while (index >= 0) {
+                if(squares.item(index * 10 + column).classList.contains("highlight-invalid") || squares.item(index * 10 + column).classList.contains("highlight-valid")) {
+                    if(grid == "Setup") {
+                    squares[index * 10 + column].className = "setup-square";
+                    }    
+                    index--;
+                } else {
+                    // If the current square doesn't contain the class we want to remove our objective is done
+                    return;
+                }
+            }
+
+            // The previous implementation that was sending an error, leaving it for posterity
+            // I also refactored the horizontal implementation after this even though it wasn't sending the same error, I'm pretty sure it was still running into more or less the same problem
+            // for(let index = row; index >= 0 && index <= 9 && squares.item(index * 10 + column).classList.contains("highlight-invalid") || squares.item(index * 10 + column).classList.contains("highlight-valid"); index--) {
+            //     if(grid == "Setup") {
+            //         squares[index * 10 + column].className = "setup-square";
+            //     }
+            // }
+        }
+    }
+
     const markAttack = (row, column, grid, hit = false) => {
         let squares;
         grid == "Player"
@@ -176,7 +229,8 @@ const DOMHandler = (function () {
         showSetupWindow,
         closeSetupWindow,
         showErrorMessage,
-        highlightSquares
+        highlightSquares,
+        unhighlightSquares
     };
 })();
 
