@@ -35,7 +35,7 @@ const DOMHandler = (function () {
     };
 
     const closeSetupWindow = () => {
-        setupDialog.close();
+        setupDialog.close("closeee");
         pageMask.style.display = "none";
     };
 

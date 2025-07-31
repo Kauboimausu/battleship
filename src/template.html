@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>CattleShip</title>
+        <title>BattleShip</title>
     </head>
     <body>
-        <h1 class="game-title">CattleShip</h1>
+        <h1 class="game-title">BattleShip</h1>
         <div class="player-board">
             <div class="letter-coordinates">
                 <div>A</div>
@@ -75,6 +75,8 @@
                     minlength="2"
                     maxlength="15"
                     placeholder="Player Name"
+                    id="player-name"
+                    name="name"
                     required
                 />
             </div>
@@ -124,7 +126,7 @@
                 <div class="placement-grid"></div>
             </div>
             <span class="setup-error"></span>
-            <button>Start Game</button>
+            <button type="submit" class="start-game-button">Start Game</button>
         </dialog>
     </body>
 </html>

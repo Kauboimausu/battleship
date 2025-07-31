@@ -7,7 +7,7 @@ const GameLogicHandler = (function () {
     let gameOver = false;
     // Indicates whether it's the player's turn or not
     let playersTurn = true;
-    let player1 = new Player("Isa", true);
+    let player1 = new Player("Nemo", true);
     let player2 = new Player("Odin");
 
     // we'll use this array to display the coordinate that was hit in an UI message
@@ -178,6 +178,20 @@ const GameLogicHandler = (function () {
         }
     };
 
+    let playerName = "";
+
+    const addNameListener = () => {
+        const nameInput = document.getElementById("player-name");
+        nameInput.addEventListener("blur", () => {
+            if (nameInput.value == "") {
+                DOMHandler.showErrorMessage("A name is required");
+            } else {
+                playerName = nameInput.value;
+                DOMHandler.showErrorMessage("");
+            }
+        });
+    };
+
     // These will be used to place the battleships before the game starts
     let selectedShip = null;
     let shipName = "";
@@ -319,14 +333,39 @@ const GameLogicHandler = (function () {
         }
     };
 
+    // Button that starts the game once the setup is finished
+    const addStartListener = () => {
+        const startButton = document.querySelector(".start-game-button");
+        startButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            // We'll start the game only if the player entered their name and placed their ships
+            if (playerName != "" && player1.board.ships.length == 5) {
+                player1.name = playerName;
+                DOMHandler.closeSetupWindow();
+            } else if (playerName == "" && player1.board.ships.length != 5) {
+                DOMHandler.showErrorMessage(
+                    "Please enter a name and place all 5 ships on the board",
+                );
+            } else if (playerName == "" && player1.board.ships.length == 5) {
+                DOMHandler.showErrorMessage("Please enter a name");
+            } else {
+                DOMHandler.showErrorMessage(
+                    "Please place all 5 ships on the board",
+                );
+            }
+        });
+    };
+
     const setUpRoutine = async () => {
         addButtonListeners();
         DOMHandler.showSetupWindow();
         const squares = DOMHandler.createGrids();
         const setupSquares = DOMHandler.createSetupGrid();
+        addNameListener();
         setUpSetupSquares(setupSquares);
         addSquareListeners(squares);
         placeEnemyShips();
+        addStartListener();
     };
 
     return { setUpRoutine };
