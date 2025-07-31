@@ -1,3 +1,5 @@
+import redDot from "./img/red-dot.png";
+
 const DOMHandler = (function () {
     const playerBoard = document.querySelector(".player-grid");
     const computerBoard = document.querySelector(".computer-grid");
@@ -35,7 +37,7 @@ const DOMHandler = (function () {
     };
 
     const closeSetupWindow = () => {
-        setupDialog.close("closeee");
+        setupDialog.close("");
         pageMask.style.display = "none";
     };
 
@@ -99,7 +101,7 @@ const DOMHandler = (function () {
                 // Then we'll take the reference of the square with matching row and column, we'll change the color of it
                 // const square = squares.filter(square => square.classList.contains(`column-${index}`))[0];
                 const square = squares.item(row * 10 + index);
-                square.style.backgroundColor = "yellow";
+                square.style.backgroundColor = "rgb(255, 204, 102)";
             }
         } else {
             // squares = squares.filter(square => square.classList.contains(`column-${column}`));
@@ -107,7 +109,7 @@ const DOMHandler = (function () {
                 // Then we'll take the reference of the square with matching row and column, we'll change the color of it
                 // const square = squares.filter(square => square.classList.contains(`row-${index}`))[0];
                 const square = squares.item(index * 10 + column);
-                square.style.backgroundColor = "yellow";
+                square.style.backgroundColor = "rgb(255, 204, 102)";
             }
         }
     };
@@ -236,10 +238,13 @@ const DOMHandler = (function () {
             ? (squares = document.querySelectorAll(".player-square"))
             : (squares = document.querySelectorAll(".computer-square"));
         const square = squares.item(row * 10 + column);
-        square.style.border = "1px solid red";
-        square.textContent = "X";
-        if (hit) {
-            square.style.color = "red";
+        const strikeImage = document.createElement("img");
+        strikeImage.src = redDot;
+        strikeImage.classList.add("red-dot-image");
+        square.appendChild(strikeImage);
+        if(hit) {
+            square.style.backgroundColor = '';
+            square.classList.add("hit");
         }
     };
 
@@ -263,4 +268,4 @@ const DOMHandler = (function () {
     };
 })();
 
-module.exports = DOMHandler;
+export default DOMHandler;

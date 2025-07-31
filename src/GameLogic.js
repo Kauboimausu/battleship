@@ -1,6 +1,6 @@
 const Player = require("./player");
 const Ship = require("./ship");
-const DOMHandler = require("./DOMHandler");
+import DOMHandler from "./DOMHandler";
 
 const GameLogicHandler = (function () {
     // Indicates whether someone's won the game
