@@ -88,42 +88,48 @@ const GameLogicHandler = (function () {
             await delay(1000);
             const destroyedShips = player1.board.shipsDefeated;
             // We'll take the last move of the list, recall that the list is well shuffled
-            const nextMove = possibleMoves.pop();
-            // Next we'll hit the ship in the given coordinates
-            const shipWasHit = player1.board.receiveAttack(
-                nextMove[0],
-                nextMove[1],
-            );
-            // and we'll mark it on the UI too
-            DOMHandler.markAttack(
-                nextMove[0],
-                nextMove[1],
-                "Player",
-                shipWasHit,
-            );
-            // We'll also pass the turn if the computer missed
-            if (!shipWasHit) {
-                DOMHandler.changeTurnText(player1.name);
-                playersTurn = true;
-                DOMHandler.updateMessage(
-                    `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and missed`,
+            try {
+                const nextMove = possibleMoves.pop();
+                // Next we'll hit the ship in the given coordinates
+                const shipWasHit = player1.board.receiveAttack(
+                    nextMove[0],
+                    nextMove[1],
                 );
-            } else if (destroyedShips == player1.board.shipsDefeated) {
-                DOMHandler.updateMessage(
-                    `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and hit an enemy ship!`,
+                // and we'll mark it on the UI too
+                DOMHandler.markAttack(
+                    nextMove[0],
+                    nextMove[1],
+                    "Player",
+                    shipWasHit,
                 );
-            } else {
-                DOMHandler.updateMessage(
-                    `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed an enemy ship!`,
-                );
-            }
-            if (player1.board.defeated) {
-                gameOver = true;
-                DOMHandler.updateMessage(`${player1.name} lost!`);
-                DOMHandler.updateMessage(
-                    `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed the remaining fleet`,
-                );
-                DOMHandler.gameOverText(player2.name);
+                // We'll also pass the turn if the computer missed
+                if (!shipWasHit) {
+                    DOMHandler.changeTurnText(player1.name);
+                    playersTurn = true;
+                    DOMHandler.updateMessage(
+                        `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and missed`,
+                    );
+                } else if (destroyedShips == player1.board.shipsDefeated) {
+                    DOMHandler.updateMessage(
+                        `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and hit an enemy ship!`,
+                    );
+                } else {
+                    DOMHandler.updateMessage(
+                        `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed an enemy ship!`,
+                    );
+                }
+                if (player1.board.defeated) {
+                    gameOver = true;
+                    DOMHandler.updateMessage(`${player1.name} lost!`);
+                    DOMHandler.updateMessage(
+                        `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed the remaining fleet`,
+                    );
+                    DOMHandler.gameOverText(player2.name);
+                    DOMHandler.changeWinnerText(player2.name);
+                    DOMHandler.showRestartWindow();
+                }
+            } catch (error) {
+                // In this case we won't do anything, as is there is no risk of the computer hitting the same square but should I add more intelligence to the computer it could happen
             }
         }
     };
@@ -174,12 +180,16 @@ const GameLogicHandler = (function () {
                                 `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`,
                             );
                             DOMHandler.gameOverText(player1.name);
+                            DOMHandler.changeWinnerText(player1.name);
+                            DOMHandler.showRestartWindow();
                         } else if (!playersTurn) {
                             // After the player makes a move the computer will make their move, but only if the player didn't miss
                             computerMove();
                         }
                     } catch (error) {
-                        DOMHandler.updateMessage("That square has already been hit");
+                        DOMHandler.updateMessage(
+                            "That square has already been hit",
+                        );
                     }
                 }
             });

@@ -17,6 +17,10 @@ const DOMHandler = (function () {
 
     const playerName = document.querySelector(".player-name");
 
+    const restartWindow = document.getElementById("game-over-window");
+
+    const winnerText = document.querySelector(".announce-winner");
+
     const createSetupGrid = () => {
         let setupSquares = [];
         const setupGrid = document.querySelector(".placement-grid");
@@ -40,6 +44,16 @@ const DOMHandler = (function () {
 
     const closeSetupWindow = () => {
         setupDialog.close("");
+        pageMask.style.display = "none";
+    }
+
+    const showRestartWindow = () => {
+        restartWindow.showModal();
+        pageMask.style.display = "inline";
+    }
+
+    const closeRestartWindow = () => {
+        restartWindow.close();
         pageMask.style.display = "none";
     }
 
@@ -262,6 +276,10 @@ const DOMHandler = (function () {
         playerName.textContent = name;
     }
 
+    const changeWinnerText = (name) => {
+        winnerText.textContent = `${name} won the game!`;
+    }
+
     return {
         createGrids,
         markShip,
@@ -276,7 +294,10 @@ const DOMHandler = (function () {
         unhighlightSquares,
         strikethrough,
         gameOverText, 
-        changePlayerName
+        changePlayerName,
+        showRestartWindow,
+        closeRestartWindow,
+        changeWinnerText
     };
 })();
 

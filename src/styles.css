@@ -189,3 +189,28 @@ body {
 .hit {
     background-color: var(--hit-color);
 }
+
+/* Restart game window */
+#game-over-window[open] {
+    display: flex;
+}
+
+#game-over-window {
+    position: fixed;
+    top: calc(50% - 100px);
+    left: calc(50% - 150px);
+    height: 200px;
+    width: 300px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.restart-game {
+    padding: 5px 15px;
+    font-size: 1.1rem;
+    background-color: var(--cool-pink);
+    border-radius: 20px;
+    border: none;
+}
