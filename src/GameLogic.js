@@ -138,42 +138,48 @@ const GameLogicHandler = (function () {
                 if (playersTurn && !gameOver) {
                     // We'll save how many ships were destroyed at the beginning of the turn, we'll compare at the end to know if a ship was defeated
                     const destroyedShips = player2.board.shipsDefeated;
-                    const shipWasHit = player2.board.receiveAttack(
-                        Math.floor(index / 10),
-                        index % 10,
-                    );
-                    DOMHandler.markAttack(
-                        Math.floor(index / 10),
-                        index % 10,
-                        "Computer",
-                        shipWasHit,
-                    );
-                    // If the ship wasn't hit we'll let the player have another turns until they miss
-                    if (!shipWasHit) {
-                        DOMHandler.changeTurnText(player2.name);
-                        playersTurn = false;
-                        DOMHandler.updateMessage(
-                            `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`,
+                    try {
+                        const shipWasHit = player2.board.receiveAttack(
+                            Math.floor(index / 10),
+                            index % 10,
                         );
-                    } else if (destroyedShips == player2.board.shipsDefeated) {
-                        DOMHandler.updateMessage(
-                            `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`,
+                        DOMHandler.markAttack(
+                            Math.floor(index / 10),
+                            index % 10,
+                            "Computer",
+                            shipWasHit,
                         );
-                    } else {
-                        DOMHandler.updateMessage(
-                            `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed an enemy ship!`,
-                        );
-                    }
-                    if (player2.board.defeated) {
-                        gameOver = true;
-                        DOMHandler.updateMessage(`${player2.name} lost!`);
-                        DOMHandler.updateMessage(
-                            `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`,
-                        );
-                        DOMHandler.gameOverText(player1.name);
-                    } else if (!playersTurn) {
-                        // After the player makes a move the computer will make their move, but only if the player didn't miss
-                        computerMove();
+                        // If the ship wasn't hit we'll let the player have another turns until they miss
+                        if (!shipWasHit) {
+                            DOMHandler.changeTurnText(player2.name);
+                            playersTurn = false;
+                            DOMHandler.updateMessage(
+                                `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and missed`,
+                            );
+                        } else if (
+                            destroyedShips == player2.board.shipsDefeated
+                        ) {
+                            DOMHandler.updateMessage(
+                                `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and hit an enemy ship!`,
+                            );
+                        } else {
+                            DOMHandler.updateMessage(
+                                `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed an enemy ship!`,
+                            );
+                        }
+                        if (player2.board.defeated) {
+                            gameOver = true;
+                            DOMHandler.updateMessage(`${player2.name} lost!`);
+                            DOMHandler.updateMessage(
+                                `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`,
+                            );
+                            DOMHandler.gameOverText(player1.name);
+                        } else if (!playersTurn) {
+                            // After the player makes a move the computer will make their move, but only if the player didn't miss
+                            computerMove();
+                        }
+                    } catch (error) {
+                        DOMHandler.updateMessage("That square has already been hit");
                     }
                 }
             });
