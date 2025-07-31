@@ -15,6 +15,8 @@ const DOMHandler = (function () {
 
     const setupErrorMessage = document.querySelector(".setup-error");
 
+    const playerName = document.querySelector(".player-name");
+
     const createSetupGrid = () => {
         let setupSquares = [];
         const setupGrid = document.querySelector(".placement-grid");
@@ -29,26 +31,26 @@ const DOMHandler = (function () {
             }
         }
         return setupSquares;
-    };
+    }
 
     const showSetupWindow = () => {
         setupDialog.showModal();
         pageMask.style.display = "inline";
-    };
+    }
 
     const closeSetupWindow = () => {
         setupDialog.close("");
         pageMask.style.display = "none";
-    };
+    }
 
     // This will update the message to indicate the state of the game
     const updateMessage = (newMessage) => {
         gameInfo.textContent = newMessage;
-    };
+    }
 
     const showErrorMessage = (errorMessage) => {
         setupErrorMessage.textContent = errorMessage;
-    };
+    }
 
     // This function adds the grid to the HTML for both boards
     const createGrids = () => {
@@ -82,7 +84,7 @@ const DOMHandler = (function () {
         }
 
         return computerSquares;
-    };
+    }
 
     // Marks a ship as having been placed in the board
     const markShip = (row, column, shipLength, vector, grid) => {
@@ -252,6 +254,14 @@ const DOMHandler = (function () {
         turnIndicator.textContent = `It is ${name}'s turn`;
     };
 
+    const gameOverText = (name) => {
+        turnIndicator.textContent = `${name} won the game!`;
+    }
+
+    const changePlayerName = (name) => {
+        playerName.textContent = name;
+    }
+
     return {
         createGrids,
         markShip,
@@ -264,7 +274,9 @@ const DOMHandler = (function () {
         showErrorMessage,
         highlightSquares,
         unhighlightSquares,
-        strikethrough
+        strikethrough,
+        gameOverText, 
+        changePlayerName
     };
 })();
 

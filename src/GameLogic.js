@@ -123,6 +123,7 @@ const GameLogicHandler = (function () {
                 DOMHandler.updateMessage(
                     `${player2.name} struck at (${numberCoordinates[nextMove[1]]}, ${nextMove[0] + 1}) and destroyed the remaining fleet`,
                 );
+                DOMHandler.gameOverText(player2.name);
             }
         }
     };
@@ -169,6 +170,7 @@ const GameLogicHandler = (function () {
                         DOMHandler.updateMessage(
                             `${player1.name} struck at (${numberCoordinates[index % 10]}, ${Math.floor(index / 10) + 1}) and destroyed the remaining fleet!`,
                         );
+                        DOMHandler.gameOverText(player1.name);
                     } else if (!playersTurn) {
                         // After the player makes a move the computer will make their move, but only if the player didn't miss
                         computerMove();
@@ -341,6 +343,8 @@ const GameLogicHandler = (function () {
             // We'll start the game only if the player entered their name and placed their ships
             if (playerName != "" && player1.board.ships.length == 5) {
                 player1.name = playerName;
+                DOMHandler.changePlayerName(playerName);
+                DOMHandler.changeTurnText(playerName);
                 DOMHandler.closeSetupWindow();
             } else if (playerName == "" && player1.board.ships.length != 5) {
                 DOMHandler.showErrorMessage(
