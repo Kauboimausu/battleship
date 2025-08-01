@@ -280,6 +280,73 @@ const DOMHandler = (function () {
         winnerText.textContent = `${name} won the game!`;
     }
 
+    // This will remove all the squares from all the boards
+    const removeSquares = () => {
+        // we'll get all the elements to remove
+        let playerSquares = document.querySelectorAll(".player-square");
+        let computerSquares = document.querySelectorAll(".computer-square");
+        let setupSquares = document.querySelectorAll(".setup-square");
+
+        // we'll cycle through all the elements and remove them from the DOM 
+        for(let i = 0; i < playerSquares.length; i++) {
+            const square = playerSquares.item(i);
+            square.remove();
+        }
+
+        for(let i = 0; i < playerSquares.length; i++) {
+            const square = computerSquares.item(i);
+            square.remove();
+        }
+
+        for(let i = 0; i < playerSquares.length; i++) {
+            const square = setupSquares.item(i);
+            square.remove();
+        }
+    }
+
+    // We'll rebuild the buttons with js to remove event listeners
+    const buildShipButtons = () => {
+        const buttonsDiv = document.querySelector(".ship-buttons");
+        buttonsDiv.innerHTML = "";
+
+        const carrierBtn = document.createElement("button");
+        carrierBtn.textContent = "Carrier";
+        carrierBtn.classList.add("ship.button");
+        carrierBtn.id = "carrier";
+
+        const battleshipBtn = document.createElement("button");
+        battleshipBtn.textContent = "Battleship";
+        battleshipBtn.classList.add("ship.button");
+        battleshipBtn.id = "battleship";
+
+        const cruiserBtn = document.createElement("button");
+        cruiserBtn.textContent = "Cruiser";
+        cruiserBtn.classList.add("ship.button");
+        cruiserBtn.id = "cruiser";
+
+        const submarineBtn = document.createElement("button");
+        submarineBtn.textContent = "Submarine";
+        submarineBtn.classList.add("ship.button");
+        submarineBtn.id = "submarine";
+
+        const destroyerBtn = document.createElement("button");
+        destroyerBtn.textContent = "Destroyer";
+        destroyerBtn.classList.add("ship.button");
+        destroyerBtn.id = "destroyer";
+
+        const directionBtn = document.createElement("button");
+        directionBtn.textContent = "Vertical";
+        directionBtn.classList.add("direction-button");
+        directionBtn.classList.add("vertical");
+
+        buttonsDiv.appendChild(carrierBtn);
+        buttonsDiv.appendChild(battleshipBtn);
+        buttonsDiv.appendChild(cruiserBtn);
+        buttonsDiv.appendChild(submarineBtn);
+        buttonsDiv.appendChild(destroyerBtn);
+        buttonsDiv.appendChild(directionBtn);
+    }
+
     return {
         createGrids,
         markShip,
@@ -297,7 +364,9 @@ const DOMHandler = (function () {
         changePlayerName,
         showRestartWindow,
         closeRestartWindow,
-        changeWinnerText
+        changeWinnerText, 
+        removeSquares,
+        buildShipButtons
     };
 })();
 

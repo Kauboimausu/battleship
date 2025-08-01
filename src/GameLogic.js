@@ -196,7 +196,7 @@ const GameLogicHandler = (function () {
         }
     };
 
-    let playerName = "";
+    let playerName;
 
     const addNameListener = () => {
         const nameInput = document.getElementById("player-name");
@@ -211,9 +211,9 @@ const GameLogicHandler = (function () {
     };
 
     // These will be used to place the battleships before the game starts
-    let selectedShip = null;
-    let shipName = "";
-    let selectedDirection = "vertical";
+    let selectedShip;
+    let shipName;
+    let selectedDirection;
 
     const addButtonListeners = () => {
         const carrier = new Ship(5);
@@ -228,6 +228,9 @@ const GameLogicHandler = (function () {
         const submarineBtn = document.getElementById("submarine");
         const destroyerBtn = document.getElementById("destroyer");
         const directionBtn = document.querySelector(".direction-button");
+
+        // We'll start the direction as vertical by default 
+        selectedDirection = "vertical";
 
         carrierBtn.addEventListener("click", () => {
             selectedShip = carrier;
@@ -359,9 +362,14 @@ const GameLogicHandler = (function () {
             // We'll start the game only if the player entered their name and placed their ships
             if (playerName != "" && player1.board.ships.length == 5) {
                 player1.name = playerName;
-                DOMHandler.changePlayerName(playerName);
-                DOMHandler.changeTurnText(playerName);
+                DOMHandler.changePlayerName(player1.name);
+                DOMHandler.changeTurnText(player1.name);
+                DOMHandler.updateMessage("");
+
                 DOMHandler.closeSetupWindow();
+                
+                // We'll reset the name field before sending
+                document.getElementById("player-name").value = "";
             } else if (playerName == "" && player1.board.ships.length != 5) {
                 DOMHandler.showErrorMessage(
                     "Please enter a name and place all 5 ships on the board",
@@ -376,7 +384,45 @@ const GameLogicHandler = (function () {
         });
     };
 
+    // This will restart the game once it's finished
+    const addRestartListener = () => {
+        const restartBtn = document.querySelector(".restart-game");
+
+        // we'll add a restart listener to the button
+        restartBtn.addEventListener("click", () => {
+            // here we'll reset all the variables necessary for the game to work
+            gameOver = false;
+            playersTurn = true;
+            player1 = new Player("Nemo", true);
+            player2 = new Player("Odin");
+            playerName = "";
+
+            // then we'll erase the squares and rebuild them add the necessary listeners
+            DOMHandler.removeSquares();
+            const squares = DOMHandler.createGrids();
+            const setupSquares = DOMHandler.createSetupGrid();
+            // We'll also rebuild the buttons
+            DOMHandler.buildShipButtons();
+            addButtonListeners();
+
+            setUpSetupSquares(setupSquares);
+            addSquareListeners(squares);
+            placeEnemyShips();
+
+            // we'll also reset these variables
+            selectedShip = null;
+            shipName = "";
+            selectedDirection = "vertical";
+
+
+            // Finally we'll hide the restart window and show the setup window
+            DOMHandler.closeRestartWindow();
+            DOMHandler.showSetupWindow();
+        });
+    };
+
     const setUpRoutine = async () => {
+        DOMHandler.buildShipButtons();
         addButtonListeners();
         DOMHandler.showSetupWindow();
         const squares = DOMHandler.createGrids();
@@ -385,7 +431,9 @@ const GameLogicHandler = (function () {
         setUpSetupSquares(setupSquares);
         addSquareListeners(squares);
         placeEnemyShips();
+        addRestartListener();
         addStartListener();
+        addRestartListener();
     };
 
     return { setUpRoutine };

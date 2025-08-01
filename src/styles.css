@@ -7,6 +7,7 @@
     --cool-pink: rgb(255, 77, 136, .5);
     --hit-color: rgba(255,76,76,255);
     --tile-background-color: rgb(46, 184, 184, .65);
+    --cute-color: rgb(179, 179, 255);
 }
 
 /* Main layout */
@@ -178,6 +179,13 @@ body {
     padding: 5px 10px;
     border: none;
     background-color: var(--cool-pink);
+}
+
+.ship-buttons > button {
+    background-color: var(--cute-color);
+    border: none;
+    font-size: 1.15rem;
+    border-radius: 10px;
 }
 
 /* Images */
