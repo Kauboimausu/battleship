@@ -1,6 +1,7 @@
 const Player = require("./player");
 const Ship = require("./ship");
 import DOMHandler from "./DOMHandler";
+import ComputerMoveHandler from "./computerAux";
 
 const GameLogicHandler = (function () {
     // Indicates whether someone's won the game
@@ -12,30 +13,6 @@ const GameLogicHandler = (function () {
 
     // we'll use this array to display the coordinate that was hit in an UI message
     let numberCoordinates = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-
-    // This will generate all the legal moves that you can make, we're doing this ensure the moves are random but we don't get repeats
-    const possibleMoves = (() => {
-        let moves = [];
-        // We'll generate all the available moves for the computer
-        for (let j = 0; j < 10; j++) {
-            for (let i = 0; i < 10; i++) {
-                moves.push([j, i]);
-            }
-        }
-        // Next we'll shuffle the array in place using the Durstenfeld shuffle algorithm
-        for (let index = moves.length - 1; index > 0; index--) {
-            let x = Math.floor(Math.random() * (index + 1));
-            let temp = moves[index];
-            moves[index] = moves[x];
-            moves[x] = temp;
-        }
-        return moves;
-    })();
-
-    // Dummy waiting function
-    function delay(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-    }
 
     // Function that places down enemy's ships in random locations
     const placeEnemyShips = () => {
@@ -85,11 +62,11 @@ const GameLogicHandler = (function () {
         // We'll use set timeout to create an artificial delay and make it seem as if the computer were thinking, we'll use 2 seconds
 
         while (!playersTurn && !gameOver) {
-            await delay(1000);
+            await ComputerMoveHandler.delay(1000);
             const destroyedShips = player1.board.shipsDefeated;
             // We'll take the last move of the list, recall that the list is well shuffled
             try {
-                const nextMove = possibleMoves.pop();
+                const nextMove = ComputerMoveHandler.possibleMoves.pop();
                 // Next we'll hit the ship in the given coordinates
                 const shipWasHit = player1.board.receiveAttack(
                     nextMove[0],

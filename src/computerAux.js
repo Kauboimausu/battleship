@@ -18,33 +18,38 @@ const ComputerMoveHandler = (function () {
         return moves;
     })();
 
+    // Dummy waiting function
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     // A list of higher likelihood to hit moves for the computer to prioritize, if there are any
-    let prioritizedMoves = [];
+    // let prioritizedMoves = [];
     // Computer move that last hit
-    let lastHit;
+    // let lastHit;
 
     // gets adjacent squares to a square, this is to add better AI
-    const getAdjacencies = (row, column) => {
-        // we'll check that the square isn't out of bounds
-        if (row + 1 < 10) {
-            if (column + 1 <= 9) {
-                prioritizedMoves.push([row + 1, column + 1]);
-            }
-            if (column - 1 >= 0) {
-                prioritizedMoves.push([row + 1, column - 1]);
-            }
-        }
-        if (row - 1 >= 0) {
-            if (column + 1 <= 9) {
-                prioritizedMoves.push([row - 1, column + 1]);
-            }
-            if (column - 1 >= 0) {
-                prioritizedMoves.push([row - 1, column - 1]);
-            }
-        }
-    };
+    // const getAdjacencies = (row, column) => {
+    //     // we'll check that the square isn't out of bounds
+    //     if (row + 1 < 10) {
+    //         if (column + 1 <= 9) {
+    //             prioritizedMoves.push([row + 1, column + 1]);
+    //         }
+    //         if (column - 1 >= 0) {
+    //             prioritizedMoves.push([row + 1, column - 1]);
+    //         }
+    //     }
+    //     if (row - 1 >= 0) {
+    //         if (column + 1 <= 9) {
+    //             prioritizedMoves.push([row - 1, column + 1]);
+    //         }
+    //         if (column - 1 >= 0) {
+    //             prioritizedMoves.push([row - 1, column - 1]);
+    //         }
+    //     }
+    // };
 
-    return { possibleMoves, prioritizedMoves, lastHit, getAdjacencies };
+    return { possibleMoves, delay };
 })();
 
 export default ComputerMoveHandler;
