@@ -8,6 +8,7 @@
     --hit-color: rgba(255,76,76,255);
     --tile-background-color: rgb(46, 184, 184, .65);
     --cute-color: rgb(179, 179, 255);
+    font-family: Genos;
 }
 
 /* Main layout */
@@ -53,6 +54,10 @@ body {
     align-self: flex-start;
     grid-column: 1 / -1;
     grid-row: 3;
+}
+
+.number-coordinates, .letter-coordinates {
+    font-family: "WDXL Lubrifont TC";
 }
 
 .letter-coordinates {

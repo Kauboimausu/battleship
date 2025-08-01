@@ -65,13 +65,13 @@ const GameLogicHandler = (function () {
                     ships[placedShips],
                     direction,
                 );
-                DOMHandler.markShip(
-                    row,
-                    column,
-                    ships[placedShips].length,
-                    direction,
-                    "Computer",
-                );
+                // DOMHandler.markShip(
+                //     row,
+                //     column,
+                //     ships[placedShips].length,
+                //     direction,
+                //     "Computer",
+                // );
                 placedShips++;
             } catch (error) {
                 // We won't actually do anything with the error, we'll just try again
